@@ -14,11 +14,15 @@ class Box():
       #take a reading
       old_state = self.buttonpress
       self.buttonpress = GPIO.input(23)
-      #if the last reading was high and this one low, print
-      if ((not old_state) and self.buttonpress):
-        time.sleep(1.0)
-        self.buttonpress = GPIO.input(23)
-        if self.buttonpress == True:
-          return True
-      return False
+      try:
+        #if the last reading was high and this one low, print
+        if ((not old_state) and self.buttonpress):
+          time.sleep(1.0)
+          self.buttonpress = GPIO.input(23)
+          if self.buttonpress == True:
+            return True
+        return False
+
+      except (KeyboardInterrupt, SystemExit):
+         GPIO.cleanup()
       
