@@ -7,11 +7,14 @@ class Box():
   def __init__(self):
     self.buttonpin = 23
     GPIO.setmode(GPIO.BCM)
-    GPIO.setup(23,GPIO.IN, pull_up_down = GPIO.PUD_UP)
+    GPIO.setup(23,GPIO.IN, GPIO.PUD_UP)
     self.buttonpress = GPIO.input(23)
+    GPIO.setup(25,GPIO.OUT)
+    print(self.buttonpress)
     
   def is_button_up(self):
       #take a reading
+      self.led = GPIO.output(25, 0)
       old_state = self.buttonpress
       self.buttonpress = GPIO.input(23)
       try:
@@ -20,6 +23,8 @@ class Box():
           time.sleep(1.0)
           self.buttonpress = GPIO.input(23)
           if self.buttonpress == True:
+            self.led = GPIO.output(25, 1)
+            time.sleep(1.0)
             return True
         return False
 
